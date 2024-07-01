@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Children{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('child.create') }}">New</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% for child in children %}
+    <article class="post">
+      <header>
+        <div>
+          <h1>{{child['firstname']}} {{child['lastname']}}</h1>
+          <ul>
+            <li>Age:{{child['age']}} Y/O</li>
+            <li>Gender:{{child['gender']}}</li>
+          </ul>
+        </div>
+        {% if g.user['id'] == child['parent_id'] %}
+          <a class="action" href="{{ url_for('child.update', id=child['id']) }}">Edit</a>
+        {% endif %}
+      </header>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

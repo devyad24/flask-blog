@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit "{{ child['firstname'] }} {{child['lastname']}}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="firstname">First Name</label>
+    <input name="firstname" id="firstname" value="{{ request.form['firstname'] or child['firstname']}}" required>
+    <label for="lastname">Last Name</label>
+    <input name="lastname" id="lastname" value="{{ request.form['lastname'] or child['lastname']}}" >
+    <label for="age">Age</label>
+    <input type="number" name="age" id="age" min="1" max="13" value="{{request.form['age'] or child['age']}}">
+    <label for="gender">Gender</label>
+    <select name="gender" id="gender">
+        <option value="{{child['gender']}}">--Please choose an option--</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+
+    <input type="submit" value="Save">
+  </form>
+  <hr>
+  <form action="{{ url_for('child.delete', id=child['id']) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+  </form>
+{% endblock %}
